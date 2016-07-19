@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList <String> basicQue = new ArrayList<>();
     ArrayList <String> randomAns = new ArrayList<>();
     ArrayList <String> unknownQue = new ArrayList<>();
-    LinearLayout root;
+
     boolean waitingAnswer = false;
     String curQue;
 
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        root = (LinearLayout)findViewById(R.id.root);
 
         messageField = (EditText) findViewById(R.id.messageField);
 
