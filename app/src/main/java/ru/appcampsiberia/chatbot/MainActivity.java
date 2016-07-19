@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,30 +24,39 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
 
     String punctuations = "`~!@#$%^&*()_+{}|:\"<>?-=[];'./,";
-    //ArrayList< ArrayList<String> > basicAns = new ArrayList();
-    Map<String, ArrayList<String> > basicAns = new HashMap<>();
-    boolean isEmpty = true;
+    ArrayList< ArrayList<String> > basicAns = new ArrayList<>();
     LinearLayout mainLayout;
     EditText messageField;
     Button submit;
     int cntMes = 0;
-    int cntAns = 0;
     int marTextLR = 13;
     int marTextTB = 6;
     ScrollView scrollView;
+    ArrayList <String> basicQue = new ArrayList<>();
+    ArrayList <String> randomAns = new ArrayList<>();
+    ArrayList <String> unknownQue = new ArrayList<>();
+    LinearLayout root;
+    boolean waitingAnswer = false;
+    String curQue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        root = (LinearLayout)findViewById(R.id.root);
+
         messageField = (EditText) findViewById(R.id.messageField);
 
+
         initBasicAns();
+        initRandomAns();
 
 
         mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
@@ -55,7 +65,12 @@ public class MainActivity extends AppCompatActivity {
         scrollView.post(new Runnable() {
             @Override
             public void run() {
-                scrollView.scrollTo(mainLayout.getMeasuredWidth(), mainLayout.getMeasuredHeight());
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                }
+            });
             }
         });
         submit = (Button) findViewById(R.id.submitxxx);
@@ -70,9 +85,21 @@ public class MainActivity extends AppCompatActivity {
                 TextView mes = new TextView(MainActivity.this);
                 cntMes++;
                 mes.setText(messageField.getText());
-                mes.setBackgroundColor(Color.parseColor("#ffc122"));
-
+                mes.setBackgroundColor(Color.parseColor("#a8eddf"));
                 mes.setId(cntMes);
+
+                if (waitingAnswer == true){
+                    int ind = getIndex(curQue);
+
+                    if (ind == -1) {
+                        basicAns.add(new ArrayList<String>());
+                        basicQue.add(curQue);
+                        basicAns.get(basicAns.size() - 1).add(messageField.getText().toString());
+                    } else {
+                        basicAns.get(ind).add(messageField.getText().toString());
+                    }
+                }
+
                 LinearLayout.LayoutParams paramMes = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 paramMes.setMargins(173, 2, 2, 2);
                 mes.setPadding(marTextLR, marTextTB, marTextLR, marTextTB);
@@ -80,10 +107,24 @@ public class MainActivity extends AppCompatActivity {
                 paramMes.gravity = Gravity.RIGHT;
                 mainLayout.addView(mes);
 
-                TextView ans = new TextView(MainActivity.this);
-                ans.setText(getAnswer(messageField.getText()));
 
-                ans.setBackgroundColor(Color.parseColor("#8cd9ff"));
+
+                TextView ans = new TextView(MainActivity.this);
+                String answer = getAnswer(messageField.getText());
+                Random r = new Random();
+                if (r.nextInt(3) == 0 && unknownQue.size() > 0) {
+                    answer += '\n';
+                    curQue = unknownQue.get(r.nextInt(unknownQue.size()));
+                    answer += curQue;
+                    waitingAnswer = true;
+
+                } else{
+                    waitingAnswer = false;
+                }
+
+                ans.setText(answer);
+
+                ans.setBackgroundColor(Color.parseColor("#d1c4ef"));
                 messageField.setText("");
                 ans.setId(cntMes);
 
@@ -95,21 +136,37 @@ public class MainActivity extends AppCompatActivity {
                 ans.setPadding(marTextLR,marTextTB,marTextLR,marTextTB);
 
                 mainLayout.addView(ans);
-
+                scrollView.scrollTo(mainLayout.getMeasuredWidth(), mainLayout.getMeasuredHeight());
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                    }
+                });
 
                 cntMes++;
             }
         });
 
 
-        findViewById(R.id.mainLayout).setOnTouchListener(new View.OnTouchListener() {
+        findViewById(R.id.scrollView).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 hideKeyboard(view);
-                return true;
+                return false;
             }
         });
 
+    }
+
+    protected int getIndex (String text) {
+        for (int i = 0; i < basicQue.size(); i++) {
+            if (basicQue.get(i).equals(text)) {
+                return i;
+            }
+
+        }
+        return -1;
     }
 
     protected String getAnswer(Editable t) {
@@ -117,12 +174,15 @@ public class MainActivity extends AppCompatActivity {
         text.toLowerCase();
         text = delPunc(text);
         Random r = new Random();
-        if (basicAns.containsKey(text))
-            return basicAns.get(text).get(r.nextInt(basicAns.get(text).size()));
-        /*for (int i = 0; i < basicAns.size(); i++) {
 
-        }*/
-        return "Привет";
+        for (int i = 0; i < basicQue.size(); i++) {
+            if (isEqual(splitStr(text), splitStr(basicQue.get(i))) == true)
+                return basicAns.get(i).get(r.nextInt(basicAns.get(i).size()));
+        }
+
+        unknownQue.add(text);
+
+        return randomAns.get(r.nextInt(randomAns.size()));
     }
 
     protected void hideKeyboard(View view) {
@@ -138,12 +198,14 @@ public class MainActivity extends AppCompatActivity {
             String answer = "";
             if (reader.hasNextLine())
                 answer = reader.nextLine();
-            //int ind =
+            int ind = getIndex(question);
 
-            if (!basicAns.containsKey(question))
-                basicAns.put(question, new ArrayList<String>());
-            if (answer != "")
-                basicAns.get(question).add(answer);
+            if (ind == -1)
+                basicAns.add(new ArrayList<String>());
+            if (answer != "") {
+                basicQue.add(question);
+                basicAns.get(basicAns.size() - 1).add(answer);
+            }
         }
         try {
             is.close();
@@ -151,6 +213,21 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    protected void initRandomAns() {
+        InputStream is = getResources().openRawResource(R.raw.random_answers);
+        Scanner reader = new Scanner(is);
+        while (reader.hasNextLine()) {
+            String text = reader.nextLine();
+            randomAns.add(text);
+        }
+        try {
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     protected String delPunc(String s ){
         String t = "";
@@ -204,12 +281,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < a.size(); i++) {
-            if (b.contains(a.indexOf(i)) == false) {
+            if (b.contains(a.get(i)) == false) {
                 return false;
             } else {
                 int ind = -1;
-                for (int j = 0; i < b.size(); j++) {
-                    if (a.indexOf(i) == b.indexOf(j)) {
+                for (int j = 0; j < b.size(); j++) {
+                    if (a.get(i).equals(b.get(j))) {
                         ind = j;
                         break;
                     }
