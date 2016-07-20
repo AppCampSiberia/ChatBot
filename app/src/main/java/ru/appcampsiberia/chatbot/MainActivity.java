@@ -1,6 +1,7 @@
 package ru.appcampsiberia.chatbot;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList <String> basicQue = new ArrayList<>();
     ArrayList <String> randomAns = new ArrayList<>();
     ArrayList <String> unknownQue = new ArrayList<>();
+    Button buttonAbout;
 
     boolean waitingAnswer = false;
     String curQue;
@@ -56,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
 
         initBasicAns();
         initRandomAns();
+
+        buttonAbout = (Button) findViewById(R.id.buttonAbout);
+        buttonAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(getApplicationContext(), About.class), 0);
+            }
+        });
 
 
         mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
@@ -87,16 +97,17 @@ public class MainActivity extends AppCompatActivity {
                 mes.setBackgroundColor(Color.parseColor("#a8eddf"));
                 mes.setId(cntMes);
 
-                if (waitingAnswer == true){
+                if (waitingAnswer){
                     int ind = getIndex(curQue);
 
                     if (ind == -1) {
                         basicAns.add(new ArrayList<String>());
-                        basicQue.add(curQue);
+                        basicQue.add(delPunc(curQue));
                         basicAns.get(basicAns.size() - 1).add(messageField.getText().toString());
                     } else {
-                        basicAns.get(ind).add(messageField.getText().toString());
+                        basicAns.get(ind - 1).add(messageField.getText().toString());
                     }
+                    waitingAnswer = false;
                 }
 
                 LinearLayout.LayoutParams paramMes = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -107,14 +118,17 @@ public class MainActivity extends AppCompatActivity {
                 mainLayout.addView(mes);
 
 
-
                 TextView ans = new TextView(MainActivity.this);
                 String answer = getAnswer(messageField.getText());
+                answer += '.';
                 Random r = new Random();
                 if (r.nextInt(3) == 0 && unknownQue.size() > 0) {
                     answer += '\n';
-                    curQue = unknownQue.get(r.nextInt(unknownQue.size()));
+                    int index = r.nextInt(unknownQue.size());
+                    curQue = unknownQue.get(index);
+                    unknownQue.remove(index);
                     answer += curQue;
+                    answer += '?';
                     waitingAnswer = true;
 
                 } else{
@@ -170,16 +184,17 @@ public class MainActivity extends AppCompatActivity {
 
     protected String getAnswer(Editable t) {
         String text = t.toString();
-        text.toLowerCase();
+        text = text.toLowerCase();
         text = delPunc(text);
         Random r = new Random();
 
         for (int i = 0; i < basicQue.size(); i++) {
-            if (isEqual(splitStr(text), splitStr(basicQue.get(i))) == true)
+            if (isEqual(splitStr(text), splitStr(basicQue.get(i))))
                 return basicAns.get(i).get(r.nextInt(basicAns.get(i).size()));
         }
 
-        unknownQue.add(text);
+        if (!unknownQue.contains(text))
+            unknownQue.add(text);
 
         return randomAns.get(r.nextInt(randomAns.size()));
     }
@@ -201,8 +216,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (ind == -1)
                 basicAns.add(new ArrayList<String>());
-            if (answer != "") {
-                basicQue.add(question);
+            if (answer.length() > 0) {
+                basicQue.add(delPunc(question));
                 basicAns.get(basicAns.size() - 1).add(answer);
             }
         }
@@ -245,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
             isLastCharPunk = found;
 
-            if (found == false)
+            if (!found)
                 t += s.charAt(i);
         }
         return t;
@@ -280,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < a.size(); i++) {
-            if (b.contains(a.get(i)) == false) {
+            if (!b.contains(a.get(i))) {
                 return false;
             } else {
                 int ind = -1;
