@@ -62,11 +62,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Неон"
         android:id="@+id/textView7"
-        android:layout_alignTop="@+id/buttonNeon"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="#000000"
-        android:textColor="#15FF00" />
+        android:textColor="#15FF00"
+        android:layout_alignBottom="@+id/buttonNeon" />
 
     <TextView
         android:layout_width="wrap_content"

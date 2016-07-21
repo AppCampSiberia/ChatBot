@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList <String> randomAns = new ArrayList<>();
     ArrayList <String> unknownQue = new ArrayList<>();
     Button buttonAbout;
+    Button buttonSet;
 
     boolean waitingAnswer = false;
     String curQue;
@@ -64,6 +65,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(getApplicationContext(), About.class), 0);
+            }
+        });
+
+        buttonSet = (Button) findViewById(R.id.buttonSet);
+        buttonSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(getApplicationContext(), Settings.class), 0);
             }
         });
 
@@ -92,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 TextView mes = new TextView(MainActivity.this);
+                mes.setTextSize(18);
                 cntMes++;
                 mes.setText(messageField.getText());
                 mes.setBackgroundColor(Color.parseColor("#a8eddf"));
@@ -119,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 TextView ans = new TextView(MainActivity.this);
+                ans.setTextSize(18);
                 String answer = getAnswer(messageField.getText());
                 answer += '.';
                 Random r = new Random();

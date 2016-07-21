@@ -16,13 +16,6 @@ public class About extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        buttonBack = (Button) findViewById(R.id.buttonBack);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            }
-        });
     }
 
     @Override
