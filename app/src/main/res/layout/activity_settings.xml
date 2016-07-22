@@ -24,11 +24,11 @@
         android:layout_height="wrap_content"
         android:text="вкл"
         android:id="@+id/buttonNeon"
+        android:layout_marginBottom="42dp"
+        android:textSize="22dp"
         android:layout_above="@+id/buttonSpace"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="47dp"
-        android:textSize="22dp" />
+        android:layout_alignLeft="@+id/buttonSpace"
+        android:layout_alignStart="@+id/buttonSpace" />
 
     <Button
         android:layout_width="wrap_content"
@@ -56,11 +56,10 @@
         android:layout_height="wrap_content"
         android:text="вкл"
         android:id="@+id/buttonStandart"
-        android:layout_below="@+id/buttonZima"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="40dp"
-        android:textSize="22dp" />
+        android:textSize="22dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/buttonNeon"
+        android:layout_alignStart="@+id/buttonNeon" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -135,5 +134,28 @@
         android:paddingTop="5dp"
         android:paddingRight="7dp"
         android:paddingBottom="5dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ВКЛ"
+        android:id="@+id/buttonPres"
+        android:layout_below="@+id/buttonZima"
+        android:layout_alignRight="@+id/buttonZima"
+        android:layout_alignEnd="@+id/buttonZima"
+        android:layout_marginTop="56dp"
+        android:textSize="22dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Презентация"
+        android:id="@+id/textView12"
+        android:layout_alignBottom="@+id/buttonPres"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="34dp"
+        android:textColor="#000000" />
 
 </RelativeLayout>
