@@ -14,6 +14,7 @@ public class Settings extends AppCompatActivity {
     Button buttonColor;
     Button buttonSpace;
     Button buttonStandart;
+    int color = Color.parseColor("#d7d7d7");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +23,29 @@ public class Settings extends AppCompatActivity {
 
         buttonZima = (Button) findViewById(R.id.buttonZima);
         buttonNeon = (Button) findViewById(R.id.buttonNeon);
-        buttonStandart = (Button) findViewById(R.id.buttonStandart);
+        buttonStandart = (Button) findViewById(R.id.buttonStandart);+
         buttonSpace = (Button) findViewById(R.id.buttonSpace);
         buttonColor = (Button) findViewById(R.id.buttonColor);
+
+
+
 
         buttonNeon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buttonNeon.setTextColor(Color.parseColor("#0CFF00"));
                 buttonNeon.setBackgroundColor(Color.parseColor("#000000"));
+
+                buttonStandart.setTextColor(Color.parseColor("#000000"));
+                buttonStandart.setBackgroundColor(color);
+                buttonColor.setTextColor(Color.parseColor("#000000"));
+                buttonColor.setBackgroundColor(color);
+                buttonSpace.setBackgroundColor(color);
+                buttonSpace.setTextColor(Color.parseColor("#000000"));
+                buttonZima.setBackgroundColor(color);
+                buttonZima.setTextColor(Color.parseColor("#000000"));
+
+
                 SharedPreferences.Editor editor = getSharedPreferences("color_background",MODE_PRIVATE).edit();
                 editor.putString("color_background", "#000000");
                 editor.commit();
@@ -77,6 +92,15 @@ public class Settings extends AppCompatActivity {
                 buttonSpace.setBackgroundColor(Color.parseColor("#000000"));
                 buttonSpace.setTextColor(Color.parseColor("#ffffff"));
 
+                buttonStandart.setTextColor(Color.parseColor("#000000"));
+                buttonStandart.setBackgroundColor(color);
+                buttonColor.setTextColor(Color.parseColor("#000000"));
+                buttonColor.setBackgroundColor(color);
+                buttonNeon.setBackgroundColor(color);
+                buttonNeon.setTextColor(Color.parseColor("#000000"));
+                buttonZima.setBackgroundColor(color);
+                buttonZima.setTextColor(Color.parseColor("#000000"));
+
                 buttonSpace.setTextColor(Color.parseColor("#ecf2fe"));
                 buttonSpace.setBackgroundColor(Color.parseColor("#040f49"));
                 SharedPreferences.Editor editor = getSharedPreferences("color_background",MODE_PRIVATE).edit();
@@ -118,6 +142,15 @@ public class Settings extends AppCompatActivity {
             public void onClick(View v) {
                 buttonColor.setBackgroundColor(Color.parseColor("#FFBABA"));
 
+                buttonStandart.setTextColor(Color.parseColor("#000000"));
+                buttonStandart.setBackgroundColor(color);
+                buttonNeon.setBackgroundColor(color);
+                buttonNeon.setTextColor(Color.parseColor("#000000"));
+                buttonSpace.setBackgroundColor(color);
+                buttonSpace.setTextColor(Color.parseColor("#000000"));
+                buttonZima.setBackgroundColor(color);
+                buttonZima.setTextColor(Color.parseColor("#000000"));
+
 
             }
         });
@@ -128,6 +161,15 @@ public class Settings extends AppCompatActivity {
 
                 buttonStandart.setBackgroundColor(Color.parseColor("#cfffaf"));
                 buttonStandart.setTextColor(Color.parseColor("#000000"));
+
+                buttonColor.setTextColor(Color.parseColor("#000000"));
+                buttonColor.setBackgroundColor(color);
+                buttonNeon.setBackgroundColor(color);
+                buttonNeon.setTextColor(Color.parseColor("#000000"));
+                buttonSpace.setBackgroundColor(color);
+                buttonSpace.setTextColor(Color.parseColor("#000000"));
+                buttonZima.setBackgroundColor(color);
+                buttonZima.setTextColor(Color.parseColor("#000000"));
 
                 SharedPreferences.Editor editor = getSharedPreferences("color_background",MODE_PRIVATE).edit();
                 editor.putString("color_background", "#cfffaf");
@@ -170,6 +212,15 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 buttonZima.setTextColor(Color.parseColor("#ffffff"));
+
+                buttonStandart.setTextColor(Color.parseColor("#000000"));
+                buttonStandart.setBackgroundColor(color);
+                buttonColor.setTextColor(Color.parseColor("#000000"));
+                buttonColor.setBackgroundColor(color);
+                buttonNeon.setBackgroundColor(color);
+                buttonNeon.setTextColor(Color.parseColor("#000000"));
+                buttonSpace.setBackgroundColor(color);
+                buttonSpace.setTextColor(Color.parseColor("#000000"));
             }
         });
 

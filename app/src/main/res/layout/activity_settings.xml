@@ -48,7 +48,8 @@
         android:layout_above="@+id/buttonColor"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textSize="22dp" />
+        android:textSize="22dp"
+        android:layout_alignParentStart="false" />
 
     <Button
         android:layout_width="wrap_content"

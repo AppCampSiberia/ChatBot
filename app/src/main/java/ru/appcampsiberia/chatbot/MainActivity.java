@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         submit.setBackgroundColor(Color.parseColor(c));
 
 
-
     }
 
     @Override
