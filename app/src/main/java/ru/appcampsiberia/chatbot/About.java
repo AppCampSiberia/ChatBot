@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class About extends AppCompatActivity {
 
-    Button buttonBack;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

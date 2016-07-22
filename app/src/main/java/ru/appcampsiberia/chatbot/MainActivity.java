@@ -2,7 +2,9 @@ package ru.appcampsiberia.chatbot;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,8 +17,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
 
     String punctuations = "`~!@#$%^&*()_+{}|:\"<>?-=[];'./,";
-    ArrayList< ArrayList<String> > basicAns = new ArrayList<>();
+    ArrayList<ArrayList<String>> basicAns = new ArrayList<>();
     LinearLayout mainLayout;
     EditText messageField;
     Button submit;
@@ -39,19 +46,61 @@ public class MainActivity extends AppCompatActivity {
     int marTextLR = 13;
     int marTextTB = 6;
     ScrollView scrollView;
-    ArrayList <String> basicQue = new ArrayList<>();
-    ArrayList <String> randomAns = new ArrayList<>();
-    ArrayList <String> unknownQue = new ArrayList<>();
+    ArrayList<String> basicQue = new ArrayList<>();
+    ArrayList<String> randomAns = new ArrayList<>();
+    ArrayList<String> unknownQue = new ArrayList<>();
     Button buttonAbout;
     Button buttonSet;
+    RelativeLayout relativeLayout;
 
     boolean waitingAnswer = false;
     String curQue;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences p = getSharedPreferences("color_background", MODE_PRIVATE);
+        String c = p.getString("color_background","#cfffaf" );
+        relativeLayout.setBackgroundColor(Color.parseColor(c));
+
+        p = getSharedPreferences("color_mesfield", MODE_PRIVATE);
+        c = p.getString("color_mesfield","#f3ff7a" );
+        messageField.setBackgroundColor(Color.parseColor(c));
+
+        p = getSharedPreferences("color_buttonSet", MODE_PRIVATE);
+        c = p.getString("color_buttonSet","#b7d2ff" );
+        buttonSet.setBackgroundColor(Color.parseColor(c));
+
+        p = getSharedPreferences("color_buttonAbout", MODE_PRIVATE);
+        c = p.getString("color_buttonAbout","#b7d2ff" );
+        buttonAbout.setBackgroundColor(Color.parseColor(c));
+
+        p = getSharedPreferences("color_buttonAbout2", MODE_PRIVATE);
+        c = p.getString("color_buttonAbout2","#000000" );
+        buttonAbout.setTextColor(Color.parseColor(c));
+
+        p = getSharedPreferences("color_buttonSet2", MODE_PRIVATE);
+        c = p.getString("color_buttonSet2","#000000" );
+        buttonSet.setTextColor(Color.parseColor(c));
+
+        p = getSharedPreferences("color_buttonsubmit2", MODE_PRIVATE);
+        c = p.getString("color_buttonsubmit2","#000000" );
+        submit.setTextColor(Color.parseColor(c));
+
+        p = getSharedPreferences("color_buttonsubmit", MODE_PRIVATE);
+        c = p.getString("color_buttonsubmit","#b7d2ff" );
+        submit.setBackgroundColor(Color.parseColor(c));
+
+
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        relativeLayout = (RelativeLayout) findViewById(R.id.RelativeLayout);
 
 
         messageField = (EditText) findViewById(R.id.messageField);
@@ -83,12 +132,12 @@ public class MainActivity extends AppCompatActivity {
         scrollView.post(new Runnable() {
             @Override
             public void run() {
-            scrollView.post(new Runnable() {
-                @Override
-                public void run() {
-                    scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                }
-            });
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                    }
+                });
             }
         });
         submit = (Button) findViewById(R.id.submitxxx);
@@ -107,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 mes.setBackgroundColor(Color.parseColor("#a8eddf"));
                 mes.setId(cntMes);
 
-                if (waitingAnswer){
+                if (waitingAnswer) {
                     int ind = getIndex(curQue);
 
                     if (ind == -1) {
@@ -142,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                     answer += '?';
                     waitingAnswer = true;
 
-                } else{
+                } else {
                     waitingAnswer = false;
                 }
 
@@ -157,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 ans.setLayoutParams(param);
-                ans.setPadding(marTextLR,marTextTB,marTextLR,marTextTB);
+                ans.setPadding(marTextLR, marTextTB, marTextLR, marTextTB);
 
                 mainLayout.addView(ans);
                 scrollView.scrollTo(mainLayout.getMeasuredWidth(), mainLayout.getMeasuredHeight());
@@ -181,9 +230,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
-    protected int getIndex (String text) {
+    protected int getIndex(String text) {
         for (int i = 0; i < basicQue.size(); i++) {
             if (basicQue.get(i).equals(text)) {
                 return i;
@@ -254,13 +304,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    protected String delPunc(String s ){
+    protected String delPunc(String s) {
         String t = "";
         boolean isLastCharPunk = false;
         for (int i = 0; i < s.length(); i++) {
             boolean found = false;
             for (int j = 0; j < punctuations.length(); j++) {
-                if (s.charAt(i) == punctuations.charAt(j)  ){
+                if (s.charAt(i) == punctuations.charAt(j)) {
                     found = true;
                     break;
                 }
