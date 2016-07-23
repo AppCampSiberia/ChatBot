@@ -31,7 +31,7 @@ public class Settings extends AppCompatActivity {
 
         SharedPreferences p = getSharedPreferences("cur_theme", MODE_PRIVATE);
         String c = p.getString("cur_theme","standart" );
-        
+
         if (c.equals("standart")) {
             buttonStandart.setBackgroundColor(Color.parseColor("#cfffaf"));
             buttonStandart.setTextColor(Color.parseColor("#000000"));
