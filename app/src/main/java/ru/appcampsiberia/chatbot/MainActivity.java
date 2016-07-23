@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     Button buttonAbout;
     Button buttonSet;
     RelativeLayout relativeLayout;
+    int sz = 25;
+
 
     boolean waitingAnswer = false;
     String curQue;
@@ -92,12 +94,21 @@ public class MainActivity extends AppCompatActivity {
         submit.setBackgroundColor(Color.parseColor(c));
 
 
+        messageField.setTextSize(sz);
+        buttonAbout.setTextSize(sz);
+        submit.setTextSize(sz);
+        buttonSet.setTextSize(sz);
+
+
+
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
 
@@ -151,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 TextView mes = new TextView(MainActivity.this);
-                mes.setTextSize(18);
+                mes.setTextSize(sz);
                 cntMes++;
                 mes.setText(messageField.getText());
                 mes.setBackgroundColor(Color.parseColor("#a8eddf"));
@@ -179,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 TextView ans = new TextView(MainActivity.this);
-                ans.setTextSize(18);
+                ans.setTextSize(sz);
                 String answer = getAnswer(messageField.getText());
                 answer += '.';
                 Random r = new Random();

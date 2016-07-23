@@ -13,16 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="вкл"
-        android:id="@+id/buttonZima"
-        android:layout_below="@+id/buttonColor"
-        android:layout_alignLeft="@+id/buttonColor"
-        android:layout_alignStart="@+id/buttonColor"
-        android:textSize="22dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="вкл"
         android:id="@+id/buttonNeon"
         android:layout_marginBottom="42dp"
         android:textSize="22dp"
@@ -34,22 +24,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="вкл"
-        android:id="@+id/buttonColor"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textSize="22dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="вкл"
         android:id="@+id/buttonSpace"
-        android:layout_above="@+id/buttonColor"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:textSize="22dp"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:layout_centerVertical="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -84,40 +64,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Космос"
         android:id="@+id/textView8"
-        android:layout_above="@+id/buttonColor"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="#000000"
-        android:textSize="26dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Розовый"
-        android:id="@+id/textView9"
-        android:layout_above="@+id/buttonZima"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:autoText="false"
-        android:textColor="#FF7F7F"
-        android:textSize="26dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/textView10"
-        android:layout_alignBottom="@+id/buttonZima"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="Зима"
-        android:background="#A5B4FF"
         android:textSize="26dp"
-        android:paddingLeft="7dp"
-        android:paddingTop="5dp"
-        android:paddingRight="7dp"
-        android:paddingBottom="5dp" />
+        android:layout_centerVertical="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -134,28 +85,5 @@
         android:paddingTop="5dp"
         android:paddingRight="7dp"
         android:paddingBottom="5dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ВКЛ"
-        android:id="@+id/buttonPres"
-        android:layout_below="@+id/buttonZima"
-        android:layout_alignRight="@+id/buttonZima"
-        android:layout_alignEnd="@+id/buttonZima"
-        android:layout_marginTop="56dp"
-        android:textSize="22dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Презентация"
-        android:id="@+id/textView12"
-        android:layout_alignBottom="@+id/buttonPres"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="34dp"
-        android:textColor="#000000" />
 
 </RelativeLayout>
